@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ch">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>socket test</title>
+</head>
+
+<body>
+    <script src="./bin/scr/socket.io.js"></script>
+    <!-- <script src="./bin/scr/socket.io.js.map"></script> -->
+    <input type="text" id="userName" value="q"/>
+    <input type="text" id="passWord" value="q"/>
+    <button id="login" onclick="login()">登录</button>
+    <br>
+    <input type="text" id="roomID" value="10">
+    <button id="join" onclick="join()">加入房间</button>
+
+    <br>
+    <br>
+
+    <button id="history" onclick="history()">获取记录</button>
+
+
+    <script>
+        let socket = io()
+        // 登录测试
+        let login = () => {
+            let username = document.getElementById('userName').value,
+                password = document.getElementById('passWord').value
+            console.log([username, password])
+            socket.emit('login', [username, password])
+        }
+        socket.on('login', (msg) => {
+            console.log(msg)
+        })
+        // 房间测试
+        let join = ()=>{
+            let username = document.getElementById('roomID').value
+            socket.emit('join', [username,10,43985])
+        }
+        // 获取历史记录
+        let history = () => {
+            socket.send('history')
+        }
+        socket.on('history', (msg) => {
+            console.log(msg)
+        })
+
+    </script>
+</body>
+
+</html>
